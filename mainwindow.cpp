@@ -12,8 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->show_ptn,SIGNAL(clicked()),this,SLOT(start_thread()));
     connect(ui->stop_ptn,SIGNAL(clicked()),this,SLOT(stop_thread()));
     connect(ui->quit_ptn,SIGNAL(clicked()),this,SLOT(close()));
+
     haar = new haar_cascade(utils::haar_path,utils::csv_path);
     haar->train();
+    connect(haar,SIGNAL(_close(int)),this,SLOT(closeApp(int)));
+    start_thread();
 }
 void MainWindow::start_thread()
 {
@@ -21,7 +24,6 @@ void MainWindow::start_thread()
     video->start();
     video->setHaar(haar);
     connect(video,SIGNAL(image_data(const QImage &)),this,SLOT(show_picture(const QImage &)));
-
 }
 void MainWindow::show_picture(const QImage &img)
 {
@@ -36,7 +38,16 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete haar;
-
 }
 
+void MainWindow::keyPressEvent(QKeyEvent * key) {
+    if(key->key() == Qt::Key_Escape) {
+        this->closeApp();
+    }
+}
 
+void MainWindow::closeApp(int ret_code) {
+    this->stop_thread();
+    //close();
+    exit(ret_code);
+}

@@ -159,7 +159,10 @@ void video::release_video()
     for (int i=0; i<BUFFER_COUNT; i++) {
         munmap(framebuf[i].start, framebuf[i].length);
     }
-    close(fd);
+    if(fd != -1) {
+        close(fd);
+        fd = -1;
+    }
     LOG("Camera test Done./n");
 }
 

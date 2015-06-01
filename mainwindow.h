@@ -16,10 +16,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
- public slots:
+    void keyPressEvent(QKeyEvent *);
+public slots:
     void show_picture(const QImage &img);
     void start_thread(void);
     void stop_thread(void);
+    void closeApp(int ret_code = 0);
 private:
     Ui::MainWindow *ui;
     video_thread *video;

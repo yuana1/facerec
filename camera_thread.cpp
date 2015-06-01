@@ -45,3 +45,19 @@ void video_thread::setHaar(haar_cascade *haar) {
 haar_cascade* video_thread::getHaar() {
     return this->haar;
 }
+
+void video_thread::setQuit_falg(bool quit_falg) {
+    this->quit_flag = quit_falg;
+}
+
+bool video_thread::getQuit_falg() {
+    return this->quit_flag;
+}
+
+void video_thread::setVideo(video video) {
+    this->m_video = video;
+}
+
+video video_thread::getVideo() {
+    this->getVideo();
+}

@@ -14,6 +14,10 @@ public:
     explicit video_thread();
     void setHaar(haar_cascade * haar);
     haar_cascade* getHaar();
+    void setQuit_falg(bool quit_falg);
+    bool getQuit_falg();
+    void setVideo(video video);
+    video getVideo();
     ~video_thread();
 protected :
         void run();

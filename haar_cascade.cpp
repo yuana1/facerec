@@ -3,10 +3,14 @@
 
 #include "utils.h"
 
-
-
-haar_cascade::haar_cascade(const string& haar_path, const string & csv_path):haar_path(haar_path),csv_path(csv_path)
+haar_cascade::haar_cascade():QObject()
 {
+}
+
+haar_cascade::haar_cascade(const string& haar_path, const string & csv_path):QObject()
+{
+    this->haar_path = haar_path;
+    this->csv_path = csv_path;
     read_csv(this->csv_path,this->images,this->labels);
 }
 
@@ -37,7 +41,7 @@ void haar_cascade::train() {
 
     // Create a FaceRecognizer and train it on the given images:
 //    model = createFisherFaceRecognizer();
-    model = createLBPHFaceRecognizer();
+    model = createLBPHFaceRecognizer(1,8,8,8,60);
     model->train(this->images, this->labels);
     // That's it for learning the Face Recognition model. You now
     // need to create the classifier for the task of Face Detection.
@@ -50,7 +54,7 @@ void haar_cascade::train() {
 CascadeClassifier haar_cascade::getHaar_cascade() {
     return this->cascade;
 }
-
+int haar_cascade::count = 0;
 QImage haar_cascade::output(QImage &img) {
     assert(model != NULL);
     int im_width = this->images[0].cols;
@@ -90,6 +94,14 @@ QImage haar_cascade::output(QImage &img) {
         rectangle(original, face_i, CV_RGB(0, 255,0), 1);
         // Create the text we will annotate the box with:
         string box_text = format("Prediction = %d", prediction);
+        if(prediction == 33) {
+        //    exit(1);
+            if(count++>=10) {
+                printf("count = %d\n",count);
+                emit _close(1);
+            }
+            box_text.append("zhaokaiyuan");
+        }
         // Calculate the position for annotated text (make sure we don't
         // put illegal values in there):
         int pos_x = std::max(face_i.tl().x - 10, 0);

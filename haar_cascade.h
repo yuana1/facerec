@@ -7,10 +7,12 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/contrib/contrib.hpp>
 #include <QImage>
+#include <QObject>
 using namespace std;
 using namespace cv;
-class haar_cascade
+class haar_cascade : public QObject
 {
+    Q_OBJECT
 private:
     string haar_path;
     string csv_path;
@@ -19,12 +21,16 @@ private:
     CascadeClassifier cascade;
     Ptr<FaceRecognizer> model;
 public:
-    haar_cascade(const string& haar_path,const string& csv_path);
+    explicit haar_cascade();
+    explicit haar_cascade(const string& haar_path,const string& csv_path);
     ~haar_cascade();
     void train();
     CascadeClassifier getHaar_cascade();
     QImage output(QImage& img);
+signals:
+void _close(int ret_code);
 private:
+    static int count;
     void read_csv(const string& filename, vector<Mat>& images, vector<int>& labels, char separator = ';');
 };
 

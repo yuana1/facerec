@@ -9,9 +9,9 @@ utils::~utils()
 
 }
 
-std::string utils::csv_path = "./res/face.csv";
+std::string utils::csv_path = "/home/zhaokaiyuan/QtProject/build-v4l2-Desktop_Qt_5_4_1_GCC_64bit-Debug/res/face.csv";
 //std::string utils::haar_path = "./res/haarcascade_frontalface_alt.xml";
-std::string utils::haar_path = "./res/lbpcascade_frontalface.xml";
+std::string utils::haar_path = "/home/zhaokaiyuan/QtProject/build-v4l2-Desktop_Qt_5_4_1_GCC_64bit-Debug/res/lbpcascade_frontalface.xml";
 //std::string utils::haar_path = "./res/cascade.xml";
 QImage utils::convertMat2QImage(cv::Mat &img_cv) {
     cv::Mat temp; // make the same cv::Mat
